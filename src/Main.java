@@ -1,27 +1,39 @@
 public class Main {
     public static void main(String[] args) {
-        PetService service = new PetService();
+        Media book1 = new Book("Java Fundamentals", "B001", "Robert Martin");
+        Media dvd1 = new DVD("OOP Concepts", "D001", "Tech Films");
+        Media mag1 = new Magazine("Programming Weekly", "M001", 15);
 
-        System.out.println("---- Pet Service Fees ----");
-        System.out.println("Basic Checkup: $" + service.calculateFee());
-        System.out.println("Checkup with Vaccination: $" + service.calculateFee(true));
-        System.out.println("Full Service (Vaccination + Grooming): $" + service.calculateFee(true, true));
-        System.out.println("Emergency Service: $" + service.calculateFee("emergency"));
+        LibraryUser student = new Student("Alice Johnson", "S12345");
+        LibraryUser teacher = new Teacher("Dr. Smith", "T001");
+        LibraryUser librarian = new Librarian("Mary Brown", "L001");
 
-        System.out.println("\n---- Pet Info and Sounds ----");
-        Pet dog = new Dog("Buddy", 3);
-        Pet cat = new Cat("Whiskers", 2);
-        Pet bird = new Bird("Tweety", 1);
+        System.out.println("\nAvailable Media:");
+        displayMediaInfo(book1);
+        displayMediaInfo(dvd1);
+        displayMediaInfo(mag1);
 
-        dog.displayInfo();
-        cat.displayInfo();
-        bird.displayInfo();
-        System.out.println("\n---- Training Pets ----");
-        trainPet((Trainable) dog);
-        trainPet((Trainable) bird);
+        System.out.println("\n=== Borrowing Test ===");
+        student.borrowMedia(book1);
+        teacher.borrowMedia(new Media[]{book1, dvd1});
+        student.borrowMedia(book1);
+
+        System.out.println("\n=== Returning Test ===");
+        student.returnMedia(book1);
+        librarian.borrowMedia(new Media[]{book1, dvd1});
+        student.returnMedia(new Media[]{book1, mag1});
+
+        System.out.println("\n=== User Information ===");
+        displayUserInfo(student);
+        displayUserInfo(teacher);
+        displayUserInfo(librarian);
     }
 
-    public static void trainPet(Trainable pet) {
-        pet.performTrick();
+    public static void displayMediaInfo(Media media) {
+        media.displayInfo();
+    }
+
+    public static void displayUserInfo(LibraryUser user) {
+        System.out.println(user.getUserType() + " - Max borrow limit: " + user.getMaxBorrowLimit() + " items");
     }
 }
